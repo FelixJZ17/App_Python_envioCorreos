@@ -51,13 +51,12 @@ def enviarMail(email_receptor, asunto, cuerpo, rutaAdjunto):
 
     # añadir el archivo adjunto que queremos especificando la ruta
     ruta_archivo_principal = 'pdfs/'
-    nombre_archivo = "ejemplo.pdf"
-    ruta_archivo = ruta_archivo_principal + nombre_archivo
+    ruta_archivo = ruta_archivo_principal + rutaAdjunto
     archivo = open(ruta_archivo, 'rb')
     adjunto = email.mime.base.MIMEBase('application', 'octet-stream')
     adjunto.set_payload((archivo).read())
     email.encoders.encode_base64(adjunto)
-    adjunto.add_header('Content-Disposition', 'attachment; filename= %s' %nombre_archivo)
+    adjunto.add_header('Content-Disposition', 'attachment; filename= %s' %rutaAdjunto)
     em.attach(adjunto)
 
     ## aquí procedemos a firmar el mail con la librería smail
@@ -86,6 +85,6 @@ def enviarMail(email_receptor, asunto, cuerpo, rutaAdjunto):
         # cerrar la conexion smtp
         smtp.quit()
 
-    mensaje_exito = "Mail Enviado correctamente a " + email_receptor + " con adjunto: " + nombre_archivo
+    mensaje_exito = "Mail Enviado correctamente a " + email_receptor + " con adjunto: " + rutaAdjunto
 
     return mensaje_exito
