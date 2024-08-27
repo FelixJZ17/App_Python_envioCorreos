@@ -17,9 +17,8 @@ email_contrasena=os.getenv("EMAIL_PASSWORD")
 servicio_smtp=os.getenv("SERVER_SMTP")
 port_smtp=os.getenv("PORT")
 
-
 #aquí el mail al que le voy a enviar
-email_receptor = "ejemplo@ejemplo.com"
+email_receptor = "fjimenezgestiones@gmail.com"
 
 #aquí los detalles del mail al que le voy a enviar. 
 asunto="Revisa tu correo con adjunto"
@@ -41,12 +40,14 @@ em['Subject']=asunto
 em.attach(MIMEText(cuerpo, 'plain'))
 
 # añadir el archivo adjunto que queremos especificando la ruta
-ruta_archivo = '/pdfs/ejemplo.pdf'
+ruta_archivo_principal = 'pdfs/'
+nombre_archivo = "ejemplo.pdf"
+ruta_archivo = ruta_archivo_principal + nombre_archivo
 archivo = open(ruta_archivo, 'rb')
 adjunto = email.mime.base.MIMEBase('application', 'octet-stream')
 adjunto.set_payload((archivo).read())
 email.encoders.encode_base64(adjunto)
-adjunto.add_header('Content-Disposition', 'attachment; filename= %s' %ruta_archivo)
+adjunto.add_header('Content-Disposition', 'attachment; filename= %s' %nombre_archivo)
 em.attach(adjunto)
 
 # tenemos que crear un contexto para luego pasarselo al smtplib.SMTP_SSL
